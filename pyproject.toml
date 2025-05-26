@@ -7,14 +7,18 @@ authors = [
 ]
 readme = "README.md"
 requires-python = ">=3.12"
-dependencies = [
-    "django (>=5.2.1,<6.0.0)",
-    "djangorestframework (>=3.16.0,<4.0.0)",
-    "requests (>=2.32.3,<3.0.0)",
-    "pytest (>=8.3.5,<9.0.0)"
-]
+
+
 
 
 [build-system]
 requires = ["poetry-core>=2.0.0,<3.0.0"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.dependencies]
+django = "^5.2.1"
+djangorestframework = "^3.16.0"
+requests = "^2.32.3"
+dotenv = "^0.9.9"
+psycopg2 = "^2.9.10"
+psycopg2-binary = "^2.9.10"

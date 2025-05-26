@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Прогноз погоды</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+<div class="container mt-5">
+    <h1>Погода в городе</h1>
+    <form id="weather-form">
+        <div class="mb-3">
+            <label for="city" class="form-label">Введите название города</label>
+            <input type="text" class="form-control" id="city" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Получить погоду</button>
+    </form>
+
+    <div id="weather-result" class="mt-4"></div>
+
+    <h2 class="mt-5">История поиска</h2>
+    <ul id="search-history" class="list-group"></ul>
+</div>
+
+<script>
+    $(document).ready(function() {
+        $('#weather-form').on('submit', function(event) {
+            event.preventDefault();
+            const city = $('#city').val();
+
+            $.get(`/api/weather/?city=${city}`, function(data) {
+                $('#weather-result').html(`
+                    <h3>Погода в ${data.city}</h3>
+                    <p>Температура: ${data.temperature} °C</p>
+                    <p>Скорость ветра: ${data.windspeed} м/с</p>
+                    <p>Код погоды: ${data.weathercode}</p>
+                    <p>Время: ${data.time}</p>
+                `);
+                $('#city').val('');
+            }).fail(function(jqXHR) {
+                $('#weather-result').html(`<div class="alert alert-danger">${jqXHR.responseJSON.error}</div>`);
+            });
+
+            // Получение истории поиска
+            $.get('/api/search-history/', function(data) {
+                $('#search-history').empty();
+                data.forEach(function(item) {
+                    $('#search-history').append(`<li class="list-group-item">${item.city_name} - ${item.search_count} раз(а)</li>`);
+                });
+            });
+        });
+    });
+</script>
+</body>
+</html>
