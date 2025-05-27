@@ -15,7 +15,7 @@
             <label for="city" class="form-label">Введите название города</label>
             <input type="text" class="form-control" id="city" required>
         </div>
-        <button type="submit" class="btn btn-primary">Получить погоду</button>
+        <li><a href="{% url 'weather:weather' %}" class="text-rot">Получить погоду</a></li>
     </form>
 
     <div id="weather-result" class="mt-4"></div>
